@@ -5,8 +5,7 @@ sequenceDiagram
     actor GV as Giảng viên
     participant Sys as :Hệ_thống_LMS
 
-    %% Khối nghiệp vụ dành cho Admin
-    alt Nghiệp vụ Quản trị (Admin)
+    alt Admin chọn Tạo/Sửa/Xóa lớp học
         Ad->>Sys: yeuCauThaoTacLopHoc(Tao/Sua/Xoa)
         activate Sys
         Sys-->>Ad: hienThiFormThaoTac()
@@ -14,12 +13,13 @@ sequenceDiagram
         Sys-->>Ad: thongBaoThanhCong()
         deactivate Sys
 
+    else Admin chọn Phân công giảng viên
         Ad->>Sys: phanCongGiangVien(maLop, maGV)
         activate Sys
         Sys-->>Ad: xacNhanPhanCong()
         deactivate Sys
 
-        %% Thêm phần Quản lý danh sách học viên mà bản trước thiếu
+    else Admin chọn Quản lý danh sách học viên
         Ad->>Sys: truyCapQuanLyDanhSachHocVien(maLop)
         activate Sys
         Sys-->>Ad: hienThiDanhSachHocVien()
@@ -27,8 +27,7 @@ sequenceDiagram
         Sys-->>Ad: thongBaoCapNhatThanhCong()
         deactivate Sys
 
-    %% Khối nghiệp vụ dành cho Giảng viên
-    else Nghiệp vụ Giảng dạy (Giảng viên)
+    else Giảng viên chọn Xem danh sách lớp giảng dạy
         GV->>Sys: yeuCauXemLopGiangDay()
         activate Sys
         Sys-->>GV: hienThiDanhSachLop()

@@ -5,7 +5,7 @@ sequenceDiagram
     participant Sys as :Hệ_thống_LMS
     actor HT as Hệ thống xác thực
 
-    alt Nghiệp vụ Đăng nhập
+    alt Đăng nhập
         %% Luồng mở rộng (Extend): Quên mật khẩu
         opt Quên mật khẩu
             ND->>Sys: yeuCauKhoiPhucMatKhau()
@@ -44,7 +44,7 @@ sequenceDiagram
             deactivate Sys
         end
 
-    else Nghiệp vụ Đăng xuất
+    else Đăng xuất
         ND->>Sys: yeuCauDangXuat()
         activate Sys
         Sys-->>ND: xacNhanDangXuatThanhCong()

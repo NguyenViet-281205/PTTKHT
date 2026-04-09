@@ -5,40 +5,52 @@ sequenceDiagram
     actor GV as Giảng viên
     participant Sys as :Hệ_thống_LMS
 
-    alt Nghiệp vụ Admin
-        Ad->>Sys: thaoTacLopHoc(Tao/Sua/Xoa)
+    %% Khối nghiệp vụ dành cho Admin
+    alt Nghiệp vụ Quản trị (Admin)
+        Ad->>Sys: yeuCauThaoTacLopHoc(Tao/Sua/Xoa)
         activate Sys
-        Sys-->>Ad: xacNhanThaoTac()
+        Sys-->>Ad: hienThiFormThaoTac()
+        Ad->>Sys: xacNhanLuuThayDoi()
+        Sys-->>Ad: thongBaoThanhCong()
         deactivate Sys
-        
+
         Ad->>Sys: phanCongGiangVien(maLop, maGV)
         activate Sys
         Sys-->>Ad: xacNhanPhanCong()
         deactivate Sys
 
-    else Nghiệp vụ Giảng viên
+        %% Thêm phần Quản lý danh sách học viên mà bản trước thiếu
+        Ad->>Sys: truyCapQuanLyDanhSachHocVien(maLop)
+        activate Sys
+        Sys-->>Ad: hienThiDanhSachHocVien()
+        Ad->>Sys: thucHienCapNhatDanhSach(Them/Xoa/Sua)
+        Sys-->>Ad: thongBaoCapNhatThanhCong()
+        deactivate Sys
+
+    %% Khối nghiệp vụ dành cho Giảng viên
+    else Nghiệp vụ Giảng dạy (Giảng viên)
         GV->>Sys: yeuCauXemLopGiangDay()
         activate Sys
         Sys-->>GV: hienThiDanhSachLop()
         
-        %% Bao gồm (Include) việc xem chi tiết
+        %% Include: Chi tiết lớp học
         GV->>Sys: chonXemChiTietLop(maLop)
-        Sys-->>GV: hienThiChiTietLopHoc()
+        Sys-->>GV: hienThiThongTinChiTietLop()
         
-        %% Các luồng mở rộng (Extend) từ Chi tiết lớp học
-        opt Xem danh sách sinh viên
+        %% Các chức năng mở rộng (Extend)
+        opt Xem danh sách sinh viên trong lớp
             GV->>Sys: yeuCauXemDSSV()
             Sys-->>GV: hienThiDanhSachSinhVien()
         end
         
-        opt Thêm tài liệu
-            GV->>Sys: taiLenTaiLieu(file)
-            Sys-->>GV: xacNhanTaiLieuDaThem()
+        opt Quản lý tài liệu học tập
+            GV->>Sys: taiLenTaiLieuMoi(file)
+            Sys-->>GV: thongBaoTaiLenThanhCong()
         end
         
-        opt Tạo bài tập/ bài thi
-            GV->>Sys: taoMoiBaiTap(thongTinBai)
-            Sys-->>GV: xacNhanDaTaoBaiTap()
+        opt Thiết lập Bài tập / Bài thi
+            GV->>Sys: taoMoiBaiTapHoacBaiThi(noiDung)
+            Sys-->>GV: xacNhanDaLuuBaiTap()
         end
         deactivate Sys
     end

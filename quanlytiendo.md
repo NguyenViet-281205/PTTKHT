@@ -5,20 +5,19 @@ sequenceDiagram
     actor GV as Giảng viên
     participant Sys as :Hệ_thống_LMS
 
-    %% Luồng của Học viên
-    alt Góc độ Học viên
+    alt Học viên chọn Xem tiến độ cá nhân
         HV->>Sys: yeuCauXemTienDoCaNhan()
         activate Sys
         Sys-->>HV: hienThiTienDoCaNhan()
         deactivate Sys
         
+    else Học viên chọn Xem thông báo
         HV->>Sys: yeuCauXemThongBao()
         activate Sys
         Sys-->>HV: hienThiDanhSachThongBao()
         deactivate Sys
 
-    %% Luồng của Giảng viên
-    else Góc độ Giảng viên
+    else Giảng viên chọn Xem tiến độ cả lớp
         GV->>Sys: yeuCauXemTienDoCaLop()
         activate Sys
         Sys-->>GV: hienThiTienDoCaLop()

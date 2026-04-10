@@ -1,58 +1,81 @@
 ```mermaid
-%%{init: { 'theme': 'base', 'themeVariables': { 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'actorBkg': '#ffffff', 'actorBorder': '#000000', 'signalColor': '#000000', 'signalTextColor': '#000000', 'activationBorderColor': '#000000', 'activationBkgColor': '#e0e0e0', 'noteBkgColor': '#ffffff', 'noteBorderColor': '#000000' } } }%%
+%%{init: { 'theme': 'base', 'themeVariables': { 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'actorBkg': '#ffffff', 'actorBorder': '#000000', 'actorLineColor': '#cccccc', 'signalColor': '#000000', 'signalTextColor': '#000000', 'activationBorderColor': '#000000', 'activationBkgColor': '#e0e0e0', 'noteBkgColor': '#ffffff', 'noteBorderColor': '#000000' } } }%%
 classDiagram
-    %% Khai báo các thực thể
+    %% --- NHÓM NGƯỜI DÙNG (Use Case: Đăng nhập, Quản lý hệ thống) ---
     class NguoiDung {
-        Mã người dùng
-        Họ tên
-        Email
-        Mật khẩu
-        Trạng thái
+        - maNguoiDung
+        - hoTen
+        - email
+        - matKhau
     }
     class HocVien {
-        Mã học viên
-        Lớp danh nghĩa
+        - lopHanhChinh
     }
     class GiangVien {
-        Mã giảng viên
-        Khoa/Bộ môn
+        - khoaBoMon
     }
     class Admin {
-        Quyền quản trị
+        - capDoQuanTri
     }
-    class LopHoc {
-        Mã lớp
-        Tên lớp
-        Sĩ số
-    }
-    class BaiGiang {
-        Mã bài giảng
-        Tên bài
-        Nội dung
-        Tài liệu đính kèm
-    }
-    class BaiThi {
-        Mã bài thi
-        Tiêu đề
-        Thời gian làm bài
-        Loại bài (Trắc nghiệm/Tự luận)
-    }
-    class KetQuaThi {
-        Điểm số
-        Nhận xét
-        Thời gian nộp
+    class NhatKyHeThong {
+        - thoiGian
+        - hanhDong
+        - chiTiet
     }
 
-    %% Mối quan hệ Kế thừa
+    %% --- NHÓM ĐÀO TẠO (Use Case: Xem bài giảng, Quản lý lớp học, Thời khóa biểu) ---
+    class LopHoc {
+        - maLopHoc
+        - tenLopHoc
+    }
+    class BuoiHoc {
+        - thoiGianBatDau
+        - thoiGianKetThuc
+        - phongHoc_Link
+    }
+    class BaiGiang {
+        - tieuDe
+        - noiDung
+    }
+    class TaiLieu {
+        - tenFile
+        - duongDan
+    }
+    class ThongBao {
+        - tieuDe
+        - noiDung
+        - ngayGui
+    }
+
+    %% --- NHÓM ĐÁNH GIÁ (Use Case: Thi, Quản lý tiến độ) ---
+    class BaiThi {
+        - maBaiThi
+        - thoiGianLam
+        - loaiThi (TracNghiem_TuLuan)
+    }
+    class KetQua {
+        - diemSo
+        - ngayNop
+        - nhanXet
+    }
+
+    %% --- QUAN HỆ ---
     NguoiDung <|-- HocVien
     NguoiDung <|-- GiangVien
     NguoiDung <|-- Admin
+    
+    Admin "1" -- "*" NhatKyHeThong : tao >
 
-    %% Mối quan hệ Kết hợp
-    GiangVien "1" -- "*" LopHoc : Giảng dạy >
-    HocVien "*" -- "*" LopHoc : Tham gia >
-    LopHoc "1" *-- "*" BaiGiang : Bao gồm >
-    LopHoc "1" -- "*" BaiThi : Tổ chức >
-    HocVien "1" -- "*" KetQuaThi : Đạt được >
-    BaiThi "1" -- "*" KetQuaThi : Có >
+    GiangVien "1" -- "*" LopHoc : giangDay >
+    HocVien "*" -- "*" LopHoc : thamGia >
+    
+    LopHoc "1" *-- "*" BuoiHoc : co >
+    LopHoc "1" *-- "*" BaiGiang : baoGom >
+    LopHoc "1" -- "*" BaiThi : toChuc >
+    LopHoc "1" -- "*" ThongBao : co >
+
+    BaiGiang "1" *-- "*" TaiLieu : kemTheo >
+    
+    HocVien "1" -- "*" KetQua : datDuoc >
+    BaiThi "1" -- "*" KetQua : taoRa >
 ```

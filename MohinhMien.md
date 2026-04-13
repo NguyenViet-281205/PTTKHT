@@ -1,7 +1,7 @@
 ```mermaid
 %%{init: { 'theme': 'base', 'themeVariables': { 'primaryColor': '#ffffff', 'primaryBorderColor': '#000000', 'lineColor': '#000000', 'textColor': '#000000', 'actorBkg': '#ffffff', 'actorBorder': '#000000', 'actorLineColor': '#cccccc', 'signalColor': '#000000', 'signalTextColor': '#000000', 'activationBorderColor': '#000000', 'activationBkgColor': '#e0e0e0', 'noteBkgColor': '#ffffff', 'noteBorderColor': '#000000' } } }%%
 classDiagram
-    %% --- NHÓM NGƯỜI DÙNG (Use Case: Đăng nhập, Quản lý hệ thống) ---
+    %% --- NHÓM NGƯỜI DÙNG ---
     class NguoiDung {
         - maNguoiDung
         - hoTen
@@ -23,7 +23,7 @@ classDiagram
         - chiTiet
     }
 
-    %% --- NHÓM ĐÀO TẠO (Use Case: Xem bài giảng, Quản lý lớp học, Thời khóa biểu) ---
+    %% --- NHÓM TỔ CHỨC ĐÀO TẠO ---
     class LopHoc {
         - maLopHoc
         - tenLopHoc
@@ -31,7 +31,7 @@ classDiagram
     class BuoiHoc {
         - thoiGianBatDau
         - thoiGianKetThuc
-        - phongHoc_Link
+        - phongHoc
     }
     class BaiGiang {
         - tieuDe
@@ -47,11 +47,11 @@ classDiagram
         - ngayGui
     }
 
-    %% --- NHÓM ĐÁNH GIÁ (Use Case: Thi, Quản lý tiến độ) ---
+    %% --- NHÓM ĐÁNH GIÁ & THI CỬ ---
     class BaiThi {
         - maBaiThi
         - thoiGianLam
-        - loaiThi (TracNghiem_TuLuan)
+        - loaiThi
     }
     class KetQua {
         - diemSo
@@ -59,7 +59,7 @@ classDiagram
         - nhanXet
     }
 
-    %% --- QUAN HỆ ---
+    %% --- CÁC MỐI QUAN HỆ ---
     NguoiDung <|-- HocVien
     NguoiDung <|-- GiangVien
     NguoiDung <|-- Admin
